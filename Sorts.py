@@ -32,7 +32,7 @@ def Insertion_sort(listik):
             else: 
                 break
     return listik
-
+fd
 def Stalin_sort(listik):
     i = 0
     edge = len(listik)
