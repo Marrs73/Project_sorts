@@ -43,6 +43,20 @@ def Stalin_sort(listik):
         else: i += 1
     return listik
 
+def Memory_quick_sort(listik):
+    length = len(listik)
+
+    if (len(listik) > 1):
+        sep = length//2    
+        greater, lower = list(), list()
+        deleted = listik.pop(sep)
+        for i in listik:
+            if (i >= deleted): greater.append(i)
+            else: lower.append(i)
+
+        return Quick_sort(lower) + [deleted] + Quick_sort(greater)
+    else: return listik
+
 def Check_the_sort(function): # Проверка сортировки на верность на заготовленных массивах
     checks = [[[0], [0]],
               [[3, 3, 3], [3, 3, 3]],
@@ -65,5 +79,6 @@ def Do_sort(function): # Вызов сортиро
           colorama.Fore.YELLOW, sorted_list, 
           colorama.Fore.RED, " || ", Check_the_sort(function), f", t = {time_process}", sep = "")
 
-[Do_sort(sort) for sort in [Bubble_sort, Selection_sort, Insertion_sort, Stalin_sort]]
+#[Do_sort(sort) for sort in [Bubble_sort, Selection_sort, Insertion_sort, Stalin_sort, Quick_sort(0, n)]]
 print(colorama.Fore.WHITE + "-" * 100)
+print(Memory_quick_sort([4, 5, 2, -5, 70, 3, 95, 0, 0, -56, 20, 20]))
