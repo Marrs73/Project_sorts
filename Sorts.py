@@ -54,7 +54,7 @@ def Memory_quick_sort(listik):
             if (i >= deleted): greater.append(i)
             else: lower.append(i)
 
-        return Quick_sort(lower) + [deleted] + Quick_sort(greater)
+        return Memory_quick_sort(lower) + [deleted] + Memory_Quick_sort(greater)
     else: return listik
 
 def Check_the_sort(function): # Проверка сортировки на верность на заготовленных массивах
