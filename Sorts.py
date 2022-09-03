@@ -45,16 +45,15 @@ def Stalin_sort(listik):
 
 def Memory_quick_sort(listik):
     length = len(listik)
-
-    if (len(listik) > 1):
-        sep = length//2    
+    
+    if (length > 1):
         greater, lower = list(), list()
-        deleted = listik.pop(sep)
+        deleted = listik.pop(r.randint(0, length-1))
         for i in listik:
             if (i >= deleted): greater.append(i)
             else: lower.append(i)
 
-        return Quick_sort(lower) + [deleted] + Quick_sort(greater)
+        return Memory_quick_sort(lower) + [deleted] + Memory_quick_sort(greater)
     else: return listik
 
 def Check_the_sort(function): # Проверка сортировки на верность на заготовленных массивах
