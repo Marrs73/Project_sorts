@@ -5,14 +5,22 @@ import random as r
 
 colorama.init()
 
-def Bubble_sort(listik):
+def Bubble_sort(listik): 
+    """
+    Сортировка пузырьком.
+    Сложность алгоритма:
+
+    
+    """
+    r = 0
     unfinished = True
     while(unfinished):
         unfinished = False
-        for j in range(1, len(listik)):
+        for j in range(1, len(listik) - r):
             if (listik[j] < listik[j-1]):
                 listik[j], listik[j-1] = listik[j-1], listik[j] 
                 unfinished = True
+        r += 1
     return listik
 
 def Selection_sort(listik):
@@ -56,6 +64,32 @@ def Memory_quick_sort(listik):
         return Memory_quick_sort(lower) + [deleted] + Memory_quick_sort(greater)
     else: return listik
 
+def Functional_quick_sort(nums):
+   if len(nums) <= 1:
+       return nums
+   else:
+       q = r.choice(nums)
+   l_nums = [n for n in nums if n < q]
+ 
+   e_nums = [q] * nums.count(q)
+   b_nums = [n for n in nums if n > q]
+   return Functional_quick_sort(l_nums) + e_nums + Functional_quick_sort(b_nums)
+
+def Quick_sort(nums, fst, lst):
+   if fst >= lst: return
+ 
+   i, j = fst, lst
+   pivot = nums[r.randint(fst, lst)]
+ 
+   while i <= j:
+       while nums[i] < pivot: i += 1
+       while nums[j] > pivot: j -= 1
+       if i <= j:
+           nums[i], nums[j] = nums[j], nums[i]
+           i, j = i + 1, j - 1
+   Quick_sort(nums, fst, j)
+   Quick_sort(nums, i, lst)
+
 def Check_the_sort(function): # Проверка сортировки на верность на заготовленных массивах
     checks = [[[0], [0]],
               [[3, 3, 3], [3, 3, 3]],
@@ -78,6 +112,19 @@ def Do_sort(function): # Вызов сортиро
           colorama.Fore.YELLOW, sorted_list, 
           colorama.Fore.RED, " || ", Check_the_sort(function), f", t = {time_process}", sep = "")
 
-#[Do_sort(sort) for sort in [Bubble_sort, Selection_sort, Insertion_sort, Stalin_sort, Quick_sort(0, n)]]
+def Do_random_sort(function): # Вызов сортирок
+    time_start = perf_counter()
+    listik_local = [r.randint(-1000, 1000) for i in range(200)]
+    name = str(function)[10: str(function).find("at") - 1]
+    copied_list = [listik_local[i] for i in range(len(listik_local))]
+    sorted_list = function(listik_local)
+    time_process = perf_counter() - time_start
+    print(colorama.Fore.WHITE + "-" * 100)
+    print(colorama.Fore.RED + name + ":" + " " * (15 - len(name)), sorted_list == sorted(copied_list), f", t = {time_process}", sep = "")
+    print(colorama.Fore.MAGENTA, copied_list)
+
+#[Do_random_sort(sort) for sort in [Bubble_sort, Selection_sort, Insertion_sort, Stalin_sort]]
 print(colorama.Fore.WHITE + "-" * 100)
-print(Memory_quick_sort([4, 5, 2, -5, 70, 3, 95, 0, 0, -56, 20, 20]))
+list = [4, 5, 2, -5, 70, 3, 95, 0, 0, -56, 20, 20]
+Quick_sort(list, 0, len(list)-1)
+print(list)
