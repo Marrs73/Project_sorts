@@ -75,16 +75,17 @@ def Functional_quick_sort(nums):
    b_nums = [n for n in nums if n > q]
    return Functional_quick_sort(l_nums) + e_nums + Functional_quick_sort(b_nums)
 
-def Quick_sort(nums, fst, lst):
-   if fst >= lst: return
- 
+def Quick_sort(nums, fst=0, lst=-1):
+   if (fst >= lst): return
+   if (lst == -1): lst = len(nums) 
+
    i, j = fst, lst
    pivot = nums[r.randint(fst, lst)]
  
    while i <= j:
        while nums[i] < pivot: i += 1
        while nums[j] > pivot: j -= 1
-       if i <= j:
+       if (i <= j):
            nums[i], nums[j] = nums[j], nums[i]
            i, j = i + 1, j - 1
    Quick_sort(nums, fst, j)
@@ -101,7 +102,9 @@ def Check_the_sort(function): # Проверка сортировки на ве�
     if (sum(result_check) == 0): return True
     else: return False
     
-def Do_sort(function): # Вызов сортиро
+def Do_sort(function, do_show=True): # Вызов сортировок
+    if (do_show == False): return 0
+    
     time_start = perf_counter()
     listik_local = [4, 5, 2, -5, 70, 3, 95, 0, 0, -56, 20, 20]
     name = str(function)[10: str(function).find("at") - 1]
@@ -112,7 +115,9 @@ def Do_sort(function): # Вызов сортиро
           colorama.Fore.YELLOW, sorted_list, 
           colorama.Fore.RED, " || ", Check_the_sort(function), f", t = {time_process}", sep = "")
 
-def Do_random_sort(function): # Вызов сортирок
+def Do_random_sort(function, do_show=True): # Вызов сортировок
+    if (do_show == False): return 0
+
     time_start = perf_counter()
     listik_local = [r.randint(-1000, 1000) for i in range(200)]
     name = str(function)[10: str(function).find("at") - 1]
@@ -123,8 +128,16 @@ def Do_random_sort(function): # Вызов сортирок
     print(colorama.Fore.RED + name + ":" + " " * (15 - len(name)), sorted_list == sorted(copied_list), f", t = {time_process}", sep = "")
     print(colorama.Fore.MAGENTA, copied_list)
 
-#[Do_random_sort(sort) for sort in [Bubble_sort, Selection_sort, Insertion_sort, Stalin_sort]]
+# Я не знаю зачем я поменял список на словарь
+[Do_random_sort(name, do_show) for  name, do_show in 
+{Bubble_sort:True, 
+Selection_sort:False, 
+Insertion_sort:True, 
+Stalin_sort:False, 
+Quick_sort:True
+}.items()]
+
 print(colorama.Fore.WHITE + "-" * 100)
-list = [4, 5, 2, -5, 70, 3, 95, 0, 0, -56, 20, 20]
-Quick_sort(list, 0, len(list)-1)
-print(list)
+#list = [4, 5, 2, -5, 70, 3, 95, 0, 0, -56, 20, 20]
+#Quick_sort(list, 0, len(list)-1)
+#print(list)
