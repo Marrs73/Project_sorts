@@ -76,8 +76,8 @@ def Functional_quick_sort(nums):
    return Functional_quick_sort(l_nums) + e_nums + Functional_quick_sort(b_nums)
 
 def Quick_sort(nums, fst=0, lst=-1):
+   if (lst == -1): lst = len(nums)-1
    if (fst >= lst): return
-   if (lst == -1): lst = len(nums) 
 
    i, j = fst, lst
    pivot = nums[r.randint(fst, lst)]
@@ -104,7 +104,7 @@ def Check_the_sort(function): # Проверка сортировки на ве�
     
 def Do_sort(function, do_show=True): # Вызов сортировок
     if (do_show == False): return 0
-    
+
     time_start = perf_counter()
     listik_local = [4, 5, 2, -5, 70, 3, 95, 0, 0, -56, 20, 20]
     name = str(function)[10: str(function).find("at") - 1]
@@ -115,29 +115,37 @@ def Do_sort(function, do_show=True): # Вызов сортировок
           colorama.Fore.YELLOW, sorted_list, 
           colorama.Fore.RED, " || ", Check_the_sort(function), f", t = {time_process}", sep = "")
 
-def Do_random_sort(function, do_show=True): # Вызов сортировок
-    if (do_show == False): return 0
+def Do_random_sort(function, do_show=[True, False]): # Вызов сортировок
+    if (do_show[0] == False): return 0
 
     time_start = perf_counter()
-    listik_local = [r.randint(-1000, 1000) for i in range(200)]
+    listik_local = [r.randint(-1000, 1000) for i in range(20000)]
     name = str(function)[10: str(function).find("at") - 1]
     copied_list = [listik_local[i] for i in range(len(listik_local))]
-    sorted_list = function(listik_local)
+    if (do_show[1] == False):
+        sorted_list = function(listik_local)
+    elif (do_show[1] == True):
+        function(listik_local)
+        sorted_list = listik_local
     time_process = perf_counter() - time_start
     print(colorama.Fore.WHITE + "-" * 100)
-    print(colorama.Fore.RED + name + ":" + " " * (15 - len(name)), sorted_list == sorted(copied_list), f", t = {time_process}", sep = "")
-    print(colorama.Fore.MAGENTA, copied_list)
+    print(colorama.Fore.RED + name + ":" + " " * (25 - len(name)), sorted_list == sorted(copied_list), f", t = {time_process}", sep = "")
+    #print(colorama.Fore.MAGENTA, sorted_list)
 
-# Я не знаю зачем я поменял список на словарь
-[Do_random_sort(name, do_show) for  name, do_show in 
-{Bubble_sort:True, 
-Selection_sort:False, 
-Insertion_sort:True, 
-Stalin_sort:False, 
-Quick_sort:True
+# Первай аргумент в списке значения ключа - вызывать ли сортировку, 
+# второй показывает работает ли сортировка возвращая значение или изменяя первоначальный список непосредственно [False\True]
+[Do_random_sort(name, arg) for  name, arg in 
+{Bubble_sort:[False, False], 
+Selection_sort:[False, False], 
+Insertion_sort:[False, False], 
+Stalin_sort:[True, False], 
+Memory_quick_sort:[True, False],
+Functional_quick_sort:[True, False],
+Quick_sort:[True, True]
 }.items()]
 
-print(colorama.Fore.WHITE + "-" * 100)
-#list = [4, 5, 2, -5, 70, 3, 95, 0, 0, -56, 20, 20]
-#Quick_sort(list, 0, len(list)-1)
-#print(list)
+
+"""print(colorama.Fore.WHITE + "-" * 100)
+list = [4, 5, 2, -5, 70, 3, 95, 0, 0, -56, 20, 20]
+Quick_sort(list)"""
+#print(Check_the_sort(Quick_sort))
